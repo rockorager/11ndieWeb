@@ -54,6 +54,9 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addCollection("events", function(collectionApi) {
         return collectionApi.getFilteredByGlob("www/posts/events").reverse();
         });
+    eleventyConfig.addCollection("rsvps", function(collectionApi) {
+        return collectionApi.getFilteredByGlob("www/posts/rsvps").reverse();
+        });
 
     // Quiet mode
     eleventyConfig.setQuietMode(true);

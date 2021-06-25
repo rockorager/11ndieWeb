@@ -1,4 +1,3 @@
-
 module.exports = {
     title: process.env.SITE_NAME,
     description: process.env.SITE_DESCRIPTION,
@@ -8,7 +7,7 @@ module.exports = {
         name: process.env.AUTHOR_NAME,
         email: process.env.AUTHOR_EMAIL
     },
-    theme: "basic",
+    theme: "no-style",
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     GITHUB_URL: process.env.GITHUB_URL,
     CONTEXT: process.env.CONTEXT
