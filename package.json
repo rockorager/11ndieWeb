@@ -27,10 +27,10 @@
     "jshint": "^2.13.0"
   },
   "dependencies": {
-    "css-what": "^5.0.1",
+    "@octokit/rest": "^18.6.2",
+    "crypto": "^1.0.1",
+    "js-base64": "^3.6.1",
+    "querystring": "^0.2.0",
     "webmention-verifier": "^1.1.3"
-  },
-  "resolutions": {
-    "css-what": "^5.0.1"
   }
 }
