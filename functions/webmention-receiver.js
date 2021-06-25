@@ -20,14 +20,14 @@ const getWebmentions = async () => {
     const webmentions = {
         owner:   repoPath[1],
         repo:    repoPath[2],
-        path:    "src/_data/webmentions.json"
+        path:    "www/_data/webmentions.json"
     };
 
     try { 
         const { data } = await octokit.rest.repos.getContent({
             owner: repoPath[1],
             repo:  repoPath[2],
-            path:  "src/_data/webmentions.json"
+            path:  "www/_data/webmentions.json"
         });
 
         webmentions.content = JSON.parse(Base64.decode(data.content));
@@ -37,7 +37,7 @@ const getWebmentions = async () => {
             "type": "feed",
             "name": "Webmentions",
             "children": []
-        }
+        };
     }
 
     return webmentions;
@@ -70,14 +70,14 @@ const commitError = async (errorMsg, message) => {
     const errors = {
         owner:   repoPath[1],
         repo:    repoPath[2],
-        path:    "src/_data/errors.json"
+        path:    "www/_data/errors.json"
     };
 
     try { 
         const { data } = await octokit.rest.repos.getContent({
             owner: repoPath[1],
             repo:  repoPath[2],
-            path:  "src/_data/errors.json"
+            path:  "www/_data/errors.json"
         });
 
         errors.content = JSON.parse(Base64.decode(data.content));
@@ -87,7 +87,7 @@ const commitError = async (errorMsg, message) => {
             "type": "Feed",
             "name": "Errors",
             "children": []
-        }
+        };
     }
 
     errors.content.children.splice(0,0,errorMsg);

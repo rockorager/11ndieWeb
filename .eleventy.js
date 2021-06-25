@@ -1,3 +1,5 @@
+const site = require('./www/_data/site');
+
 module.exports = function (eleventyConfig) {
     
     // Passthrough files
@@ -55,11 +57,11 @@ module.exports = function (eleventyConfig) {
 
     // Quiet mode
     eleventyConfig.setQuietMode(true);
-    
     // Files to convert are in www
     return {
         dir: {
-            input: "www"
+            input: "www",
+            includes: "_themes/"+site.theme
         },
     };
 };
