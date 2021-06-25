@@ -1,0 +1,7 @@
+[template.environment]
+  AUTHOR_NAME = "Your Name"
+  AUTHOR_EMAIL = "Your email address"
+  SITE_NAME = "Website name"
+  SITE_DESCRIPTION = "Website description"
+  GITHUB_URL = "change me for your secret token"
+  GITHUB_TOKEN = "set the url to your custom logo here"
