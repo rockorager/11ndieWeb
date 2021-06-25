@@ -4,7 +4,7 @@ const { Base64 } = require('js-base64');
 const crypto = require('crypto');
 const wmverifier = require('webmention-verifier');
 const URL = require('url').URL;
-const site = require('../src/_data/site');
+const site = require('../www/_data/site');
 
 
 const octokit = new Octokit({
