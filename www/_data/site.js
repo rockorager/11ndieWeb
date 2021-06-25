@@ -9,6 +9,6 @@ module.exports = {
     },
     theme: "no-style",
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-    GITHUB_URL: process.env.GITHUB_URL,
+    GITHUB_URL: process.env.REPOSITORY_URL,
     CONTEXT: process.env.CONTEXT
 };

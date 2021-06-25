@@ -1,7 +1,7 @@
 const site = require('./www/_data/site');
 
 module.exports = function (eleventyConfig) {
-    
+    console.log(site);
     // Passthrough files
     eleventyConfig.addPassthroughCopy({ "www/images": "images" });
     eleventyConfig.addPassthroughCopy("www/**/*.css");
