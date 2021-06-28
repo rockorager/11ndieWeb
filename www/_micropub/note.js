@@ -1,5 +1,5 @@
 module.exports = function (data) {
-	// DON'T MESS WITH INDENTS
+	// DON'T MESS WITH THE INDENTS
 	const template = 
 `
 ---
