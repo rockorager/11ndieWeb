@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <meta name="description" content="Tim Culverhouse">
+    <link rel="icon" href="/favicon.svg">
+    
+    <!--IndieWeb-->
+    <link rel="me" href="https://micro.blog/tculverhouse">
+    <link rel="authorization_endpoint" href="https://indieauth.com/auth">
+    <link rel="token_endpoint" href="https://tokens.indieauth.com/token">
+    <link rel="webmention" href="https://www.timculverhouse.com/.netlify/functions/webmention-receiver">
+    <link rel="microsub" href="https://aperture.p3k.io/microsub/612">
+    <link rel="micropub" href="https://www.timculverhouse.com/.netlify/functions/micropub">
+    <!--Style-->
+    <style>
+/*-------Variables-------*/
+:root {
+  --text-main:  #222;
+  --text-link:  #0000c0;
+  --text-light: #666;
+  --text-pre-background: #e8edf2;
+  --background: #FFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-main:  #eee;
+    --text-link:  #7474ff;
+    --text-light: #999;
+    --text-pre-background: #333;
+    --background: #000;
+    background: var(--background);
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica, "Segoe UI", Roboto, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.5;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  padding: 0 1em;
+  max-width: 700px;
+  font-size: 1rem;
+  color: var(--text-main);
+  text-rendering: optimizeLegibility;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5em 0;
+  line-height: 1.2em;
+}
+
+a{
+  color: var(--text-link);
+  text-decoration:  none;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+  display: block;
+  margin: 0.5em auto;
+  max-height: 600px;
+}
+
+figcaption, img + em {
+  text-align: center;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Left bar on blockquotes */
+blockquote {
+  margin: 1rem 0;
+  padding: 0 2rem;
+  border-left: 0.2rem solid #777;
+}
+
+/* Prevent textarea from overflowing */
+textarea {
+  width: 100%;
+}
+
+/* Styles for inline code or code snippets */
+
+code,
+pre,
+kbd,
+samp {
+  font-family: 'Courier', monospace;
+}
+pre {
+  padding: 1rem 1.4rem;
+  max-width: 100%;
+  overflow: auto;
+  border-radius: 4px;
+  background: var(--text-pre-background);
+}
+pre code {
+  font-size: 95%;
+  position: relative;
+}
+kbd {
+  background: var(--text-pre-background);
+  border: 1px solid hsl(210, 5%, 70%);
+  border-radius: 2px;
+  padding: 2px 4px;
+  font-size: 75%;
+}
+
+/* Make table 100% width, add borders between rows */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  max-width: 100%;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.5rem;
+}
+td {
+  border-bottom: 1px solid hsl(0, 0%, 85%);
+}
+thead th {
+  border-bottom: 2px solid hsl(0, 0%, 70%);
+}
+tfoot th {
+  border-top: 2px solid hsl(0, 0%, 70%);
+}
+
+/* h1 size override for consistent size independent of nesting*/
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+.task-list-item {
+  list-style-type: none;
+}
+article {
+  padding-bottom: 2rem;
+}
+article:last-of-type {
+  padding-bottom: 0;
+}
+
+p {
+  margin-top: 0;
+}
+p:last-of-type {
+  margin-bottom: 0;
+}
+nav {
+  display: flex;
+  align-items: flex-end;
+}
+#header-title {
+  flex-grow: 1;
+  margin: 0 0.5em;
+}
+nav>a {
+  margin-left: 20px;
+}
+header {
+
+  margin: 1em 0;
+}
+header a {
+  color: var(--text-light);
+  text-decoration: none;
+}
+header .avatar {
+  vertical-align: bottom;
+  margin-right: 0;
+}
+#menu-items a {
+  margin: 0 0.5em;
+}
+
+time a {
+  color: var(--text-light);
+  text-decoration: underline;
+}
+hr {
+background:var(--text-main);
+height:1px;
+border:0
+}
+.avatar {
+  display: inline;
+  max-width: 36px;
+  margin: 0;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  vertical-align:middle;
+}
+.commenter {
+  text-decoration: none;
+  color: var(--text-main);
+}
+.reactions {
+  text-align: right;
+  color: var(--text-light);
+}
+footer, footer a {
+  text-decoration: none;
+  color:var(--text-light);
+  text-align: center;
+  margin: 1.5rem 0;
+}
+.link-context {
+  margin-bottom: 1rem;
+}
+.contact-icons {
+  display: flex;
+  justify-content: center;
+}
+.contact-icons a {
+  margin: 0.5rem;
+}
+svg {
+  vertical-align: bottom;
+}
+main a:hover {
+  text-decoration: underline;
+  color: var(--text-link);
+}
+a:hover, time a:hover {
+  color: red;
+}
+.webmention-author {
+  display: flex;
+  align-items: baseline;
+}
+.webmention-author time {
+  margin-left: 0.5em;
+}
+.webmention-author time a {
+  text-decoration: none;
+}
+
+/* --- Books-----*/
+.book-status {
+  border-radius: 1em;
+  padding: 0.1em .3em 0.2em 0.3em;
+  font-size: 70%;
+  background:hsl(0, 0%, 70%);
+  text-transform: capitalize;
+}
+.reading{
+  background: rgb(0, 255, 0);
+}
+.read {
+  background: #EEEEEE;
+}
+@media screen and (max-width: 450px){
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+</style>
+  </head>
+
+  <body>
+    <header>
+    <nav>
+      <section class="h-card">
+        <a class="u-url u-uid" href="https://www.timculverhouse.com" title="Tim Culverhouse">
+          <img src="/assets/img/tim-avatar.jpeg" alt="Tim Culverhouse" class="avatar u-photo" width="36" height="36">
+        </a>
+        <p hidden class="p-name">Tim Culverhouse</p>
+        <p hidden class="p-note">Married, father of three. Lifelong learner on a constant path of self-improvement. Builder of all things digital and physical. Minnesotan and proud of it.</p>
+        <p hidden class="p-locality">St. Paul, MN</p>
+      </section>
+      <section id="header-title">
+        <a href="/" title="Tim Culverhouse">Tim Culverhouse</a>
+      </section>
+      <section id="menu-items">
+        <a href="/about.html" title="About">About</a>
+        <a href="/now.html" title="Now">Now</a>
+        <a href="/posts/" title="Posts">Posts</a>
+      </section>
+    </nav>
+  <hr>
+</header>
+
+        <main>
+<form action="/.netlify/functions/micropub" method="post">
+  <label for="source">Source</label><br>
+  <input type="text" id="source" name="source" value="https://www.timculverhouse.com/microformats.html"><br>
+  <label for="target">Target</label><br>
+  <input type="text" id="target" name="target" value="https://www.timculverhouse.com/microformats-parent.html"><br><br>
+  <input type="submit" value="Submit">
+</form> 
+</main>
+    <footer>
+    <hr>
+    <section class="contact-icons">
+    <a rel="me" href="mailto:tim@timculverhouse.com" title="Email"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg></a>
+    <a rel="me" href="https://github.com/rockorager" title="GitHub"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+</svg></a>
+    <a href="/feed.xml" title="RSS"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a>
+    </section>
+  <a href="https://xn--sr8hvo.ws/%E2%A4%B5%EF%B8%8F%F0%9F%94%8D%F0%9F%88%B4/previous">←</a>
+  An IndieWeb Webring 🕸💍
+  <a href="https://xn--sr8hvo.ws/%E2%A4%B5%EF%B8%8F%F0%9F%94%8D%F0%9F%88%B4/next">→</a>
+  <p><small><em>This website supports <a href="https://webmention.net/" title="Webmentions">webmentions</a></em></small></p>
+</footer>
+    </body>
+</html>

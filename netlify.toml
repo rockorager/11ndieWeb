@@ -3,5 +3,5 @@
   AUTHOR_EMAIL = "Your email address"
   SITE_NAME = "Website name"
   SITE_DESCRIPTION = "Website description"
-  GITHUB_URL = "change me for your secret token"
-  GITHUB_TOKEN = "set the url to your custom logo here"
+  GITHUB_URL = "URL to your github repository"
+  GITHUB_TOKEN = "Access token from Github"

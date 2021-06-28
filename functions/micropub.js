@@ -3,6 +3,7 @@ const axios = require("axios");
 const site = require("../www/_data/site");
 const { Base64 } = require("js-base64");
 const { Octokit } = require("@octokit/rest");
+const mpHelper = require('../lib/micropub-helper');
 
 // Dev
 const events = {};
@@ -10,6 +11,11 @@ const events = {};
 events.note = require("../www/_micropub/note.quill.json");
 events.bookmark = require("../www/_micropub/bookmark.quill.json");
 events.event = require("../www/_micropub/event.quill.json");
+events.query = require("../www/_micropub/config.quill.json");
+events.article = require("../www/_micropub/article-with-photo.quill.json");
+events.like = require("../www/_micropub/like.quill.json");
+events.noteWithPhoto = require("../www/_micropub/note-with-photo.quill.json");
+events.note2 = require("../www/_micropub/note.indigenous.json");
 // end Dev block
 
 const octokit = new Octokit({
@@ -51,145 +57,85 @@ const commitContent = async (content, message) => {
     }
 };
 
-function templates(data) {
+function templates(mp) {
+    switch(mp.postType)
     // DON'T MESS WITH INDENTS
     const note = `---
-title: ${data}
+title: ${mp.properties.name[0]}
 ---`;
     console.log(note);
     return {
         note: {
             path: "www/posts/notes",
-            frontmatter: note,
+            post: note,
         },
     };
 }
 
+function postTypeDiscovery (mf2) {
+    if(mf2.type[0] === "h-event") {
+        return "event";
+    }
+    if(mf2.properties.hasOwnProperty("rsvp")) {
+        return "rsvp";
+    }
+    if(mf2.properties.hasOwnProperty("repost-of")) {
+        return "repost-of";
+    }
+    if(mf2.properties.hasOwnProperty("like-of")) {
+        return "like-of";
+    }
+    if(mf2.properties.hasOwnProperty("bookmark-of")) {
+        return "bookmark-of";
+    }
+    if(mf2.properties.hasOwnProperty("in-reply-to")) {
+        return "reply";
+    }
+    if(mf2.properties.hasOwnProperty("name")) {
+        if(mf2.properties.name[0] != ''){
+            return "article";
+        }
+    }
+
+    return "note";
+}
+
 exports.handler = async (event, context) => {
-    // 1. Get token endpoint from domain OR assume it's indieauth?
-    // 2. Verify token in POST request with a GET request to token endpoint
-    // 3. Request is valid, proceed with handling the request
 
-    event = events.note;
+    event = events.note2;
     const testData = templates("testing");
+    console.log()
+    // TODO Assume it's indieauth now, integrate self hosted tokens
+    let mpData = await mpHelper(event, 'https://tokens.indieauth.com/token');
 
-    const data = function () {
-        if (event.multiValueHeaders["Content-Type"][0] === "application/json") {
-            return JSON.parse(event.body);
-        } else {
-            return qs.parse(event.body);
+    // Check scopes
+
+    if(mpData.statusCode != 200) {
+        return mpData;
+    }
+
+    if(mpData.query) {
+        switch(mpData.query){
+            case 'config':
+                // get config and return
+                return mpData;
+            case 'source':
+                // get source data and return
+                return mpData;
+            case 'syndicate-to':
+                // get syndications and return
+                return mpData;
         }
-    };
-
-    if (
-        !event.headers.hasOwnProperty("authorization") &&
-        !data.hasOwnProperty("access_token")
-    ) {
-        return {
-            statusCode: 401,
-            body: "No access token provided",
-        };
     }
 
-    const token = event.headers.authorization || "Bearer " + data.access_token;
-    let res = {};
-    try {
-        res = await axios.get("https://tokens.indieauth.com/token", {
-            headers: {
-                Accept: "application/json",
-                Authorization: token,
-            },
-        });
-    } catch {
-        return {
-            statusCode: 403,
-            body: "Bad token",
-        };
+    if(mpData.type) {
+        // handle post and return
+            mpData.postType = postTypeDiscovery(mpData);
+    console.log(mpData);
+        return mpData;
     }
 
-    const scopes = res.data.scope.split(" ");
-
-    if (event.queryStringParameters.hasOwnProperty("q")) {
-        switch (event.queryStringParameters.q) {
-            case "config":
-                console.log("config query");
-                return {
-                    statusCode: 200,
-                    body: {},
-                };
-            case "source":
-                // return properties of source
-                console.log("source query");
-                return {
-                    statusCode: 200,
-                    body: {},
-                };
-            case "syndicate-to":
-                //return syndication targets
-                console.log("syndicate-to query");
-                return {
-                    statusCode: 200,
-                    body: {},
-                };
-        }
-    } else {
-        console.log("No query param, committing event");
-        // await commitContent(event, "Micropub received");
-
-        await commitContent(testData.note.frontmatter, "Test");
-
-        return {
-            statusCode: 201,
-            body: "All good",
-            headers: {
-                location: "https://www.timculverhouse.com",
-            },
-        };
-    }
-
-    /*
-
-
-
-    const scope = res.data.scope.split(" ");
-    const date = new Date().toISOString();
-
-// Note
-
-    var content = `
----
-layout: layouts/note
-type: note
-date: ${date}
----
-${data.content}
-    `;
-
-// Article
-    content = `
----
-title: ${data.name}
-layout: layouts/article
-type: article
-date: ${date}
----
-${data.content}
-    `;
-
-// Reply
-    content = `
----
-title: ${data.name}
-layout: layouts/reply
-type: reply
-date: ${date}
----
-${data.content}
-    `;
-    const filename = new Date().toISOString().split("T")[0] + "-" + data["mp-slug"] + ".md";
-
-    console.log(data);
-*/
+    return {statusCode: 500, body: "Server error"};
 
     //https://micropub.spec.indieweb.org/#create-p-1
     // Methods
