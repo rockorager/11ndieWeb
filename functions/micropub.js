@@ -7,6 +7,7 @@ const mpHelper = require('../lib/micropub-helper');
 const slugify = require('slugify');
 
 // Dev
+/*
 const events = {};
 
 events.note = require("../www/_micropub/note.quill.json");
@@ -18,6 +19,7 @@ events.like = require("../www/_micropub/like.quill.json");
 events.noteWithPhoto = require("../www/_micropub/note-with-photo.quill.json");
 events.note2 = require("../www/_micropub/note.indigenous.json");
 // end Dev block
+*/
 
 const octokit = new Octokit({
     auth: site.GITHUB_TOKEN,
@@ -25,13 +27,12 @@ const octokit = new Octokit({
 
 const commitContent = async (content, message, path) => {
     let repoPath = new URL(site.GITHUB_URL).pathname.split("/");
-    let date = new Date().toISOString();
 
-    let microPubPath = "www/_micropub/" + date;
+    
     const commit = {
         owner: repoPath[1],
         repo: repoPath[2],
-        path: microPubPath,
+        path: path,
     };
 
     const contentEncoded = Base64.encode(content);
@@ -192,6 +193,7 @@ exports.handler = async (event, context) => {
         mpData = postTypeDiscovery(mpData);
         let markdown = fileTemplate(mpData);
         let path = mpData.path + '/' + filename;
+        await commitContent(markdown, `Add new ${mpData.postType} ${filename}`, path);
         return mpData;
     }
 
