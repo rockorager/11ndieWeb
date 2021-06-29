@@ -33,6 +33,7 @@
     "js-base64": "^3.6.1",
     "netlify-cli": "^3.38.10",
     "querystring": "^0.2.0",
+    "slugify": "^1.5.3",
     "webmention-verifier": "^1.1.3"
   }
 }

@@ -4,6 +4,7 @@ const site = require("../www/_data/site");
 const { Base64 } = require("js-base64");
 const { Octokit } = require("@octokit/rest");
 const mpHelper = require('../lib/micropub-helper');
+const slugify = require('slugify');
 
 // Dev
 const events = {};
@@ -22,12 +23,11 @@ const octokit = new Octokit({
     auth: site.GITHUB_TOKEN,
 });
 
-const commitContent = async (content, message) => {
+const commitContent = async (content, message, path) => {
     let repoPath = new URL(site.GITHUB_URL).pathname.split("/");
     let date = new Date().toISOString();
 
     let microPubPath = "www/_micropub/" + date;
-    console.log(microPubPath);
     const commit = {
         owner: repoPath[1],
         repo: repoPath[2],
@@ -57,7 +57,7 @@ const commitContent = async (content, message) => {
     }
 };
 
-function templates(mp) {
+function fileTemplate(mp) {
     let post = `---\r\n`;
     let data = mp.properties;
     let date = new Date().toISOString();
@@ -78,9 +78,16 @@ function templates(mp) {
         }
     });
 
-    post = post + `---\r\n`+`${data.content}`;
+    post = post + `---\r\n`;
 
-    console.log(post);
+    if(data.hasOwnProperty('content')){
+        if(typeof data.content[0] === 'object') {
+            post = post + `${data.content[0].html}`;
+        } else {
+            post = post + `${data.content}`;
+        }
+    }
+
     return {
         note: {
             path: "www/posts/notes",
@@ -91,35 +98,42 @@ function templates(mp) {
 
 function postTypeDiscovery (mf2) {
     if(mf2.type[0] === "h-event") {
-        return "event";
+        mf2.postType = "event";
+        mf2.path = "www/events";
     }
     if(mf2.properties.hasOwnProperty("rsvp")) {
-        return "rsvp";
+        mf2.postType = "rsvp";
+        mf2.path = "www/posts/rsvps";
     }
     if(mf2.properties.hasOwnProperty("repost-of")) {
-        return "repost-of";
+        mf2.postType = "repost-of";
+        mf2.path = "www/posts/reposts";
     }
     if(mf2.properties.hasOwnProperty("like-of")) {
-        return "like-of";
+        mf2.postType = "like-of";
+        mf2.path = "www/posts/likes";
     }
     if(mf2.properties.hasOwnProperty("bookmark-of")) {
-        return "bookmark-of";
+        mf2.postType = "bookmark-of";
+        mf2.path = "www/posts/bookmarks";
     }
     if(mf2.properties.hasOwnProperty("in-reply-to")) {
-        return "reply";
+        mf2.postType = "reply";
+        mf2.path = "www/posts/replies";
     }
     if(mf2.properties.hasOwnProperty("name")) {
         if(mf2.properties.name[0] != ''){
-            return "article";
+            mf2.postType = "article";
+            mf2.path = "www/posts/articles";
         }
     }
 
-    return "note";
+    return mf2;
 }
 
 exports.handler = async (event, context) => {
 
-    event = events.event;
+    event = events.like;
     // TODO Assume it's indieauth now, integrate self hosted tokens
     let mpData = await mpHelper(event, 'https://tokens.indieauth.com/token');
 
@@ -143,11 +157,41 @@ exports.handler = async (event, context) => {
         }
     }
 
+    let slug = '';
+
+    if(mpData.properties.hasOwnProperty('mp-slug')) {
+        slug = slugify(mpData.properties['mp-slug'][0], {lower:true,strict:true});
+        delete mpData.properties['mp-slug'];
+    } else if(mpData.properties.hasOwnProperty('name')) {
+        slug = slugify(mpData.properties.name[0], {lower:true,strict:true});
+    } else if(mpData.properties.hasOwnProperty('content')){
+        // first 25 characters of content is slug
+        if(typeof mpData.properties.content[0] === 'object') {
+            slug = slugify(mpData.properties.content[0].html.substr(0,30), {lower:true,strict:true});
+        } else {
+            slug = slugify(mpData.properties.content[0].substr(0,30), {lower:true,strict:true});
+        }
+    } else {
+        slug = slugify(JSON.stringify(mpData.properties).substr(0,30), {lower:true,strict:true});
+    }
+
+    let date = new Date().toISOString().split('T')[0];
+
+    if(mpData.properties.hasOwnProperty('published')) {
+        date = new Date(mpData.properties.published[0]).toISOString;
+    } else {
+        mpData.properties.published = new Date().toISOString();
+    }
+
+    date = date.split('T')[0];
+
+    let filename = date + '-' + slug + '.md';
+
     if(mpData.type) {
         // handle post and return
-        mpData.postType = postTypeDiscovery(mpData);
-        let markdown = templates(mpData);
-    console.log(mpData);
+        mpData = postTypeDiscovery(mpData);
+        let markdown = fileTemplate(mpData);
+        let path = mpData.path + '/' + filename;
         return mpData;
     }
 
