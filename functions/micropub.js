@@ -58,16 +58,33 @@ const commitContent = async (content, message) => {
 };
 
 function templates(mp) {
-    switch(mp.postType)
-    // DON'T MESS WITH INDENTS
-    const note = `---
-title: ${mp.properties.name[0]}
----`;
-    console.log(note);
+    let post = `---\r\n`;
+    let data = mp.properties;
+    let date = new Date().toISOString();
+    
+    
+    let keys = Object.keys(data);
+    keys.forEach(function(key){
+        if(key === 'name'){
+            post = post + `title: ${data[key]}\r\n`;
+        } else if(key === 'published') {
+            post = post + `date: ${data[key]}\r\n`;
+        } else if(key === 'category'){
+            post = post + `tags: [${data.category}]\r\n`;
+        } else if(key === 'content') {
+            //skip
+        } else {
+            post = post + `${key}: ${data[key]}\r\n`;
+        }
+    });
+
+    post = post + `---\r\n`+`${data.content}`;
+
+    console.log(post);
     return {
         note: {
             path: "www/posts/notes",
-            post: note,
+            post: post,
         },
     };
 }
@@ -102,9 +119,7 @@ function postTypeDiscovery (mf2) {
 
 exports.handler = async (event, context) => {
 
-    event = events.note2;
-    const testData = templates("testing");
-    console.log()
+    event = events.event;
     // TODO Assume it's indieauth now, integrate self hosted tokens
     let mpData = await mpHelper(event, 'https://tokens.indieauth.com/token');
 
@@ -130,7 +145,8 @@ exports.handler = async (event, context) => {
 
     if(mpData.type) {
         // handle post and return
-            mpData.postType = postTypeDiscovery(mpData);
+        mpData.postType = postTypeDiscovery(mpData);
+        let markdown = templates(mpData);
     console.log(mpData);
         return mpData;
     }
