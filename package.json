@@ -24,17 +24,9 @@
   "homepage": "https://github.com/rockorager/11ndieWeb#readme",
   "devDependencies": {
     "@11ty/eleventy": "^0.12.1",
-    "jshint": "^2.13.0",
     "netlify-plugin-inline-functions-env": "^1.0.9"
   },
   "dependencies": {
-    "@octokit/rest": "^18.6.2",
-    "axios": "^0.21.1",
-    "crypto": "^1.0.1",
-    "js-base64": "^3.6.1",
-    "netlify-cli": "^3.38.10",
-    "querystring": "^0.2.0",
-    "slugify": "^1.5.3",
-    "webmention-verifier": "^1.1.3"
+    "eleventy-plugin-11ndieweb": "^0.1.1"
   }
 }
