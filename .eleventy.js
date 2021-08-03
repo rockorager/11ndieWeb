@@ -62,7 +62,7 @@ module.exports = function (eleventyConfig) {
   return {
     dir: {
       input: "www",
-      includes: "../_themes/" + site.theme,
+      includes: "../themes/" + site.theme,
     },
   };
 };
