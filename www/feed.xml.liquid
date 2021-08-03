@@ -1,0 +1,48 @@
+---
+permalink: feed.xml
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | escape }}</title>
+    <description>{{ site.description | escape }}</description>
+    <link>{{site.url}}</link>
+    <image>
+        <url>{{ site.url }}/images/avatar.jpeg</url>
+        <title>{{ site.author.name }}</title>
+        <link>{{ site.url }}</link>
+    </image>
+    <atom:link href="{{site.url}}/feed.xml" rel="self" type="application/rss+xml"/>
+    <language>en</language>
+    <lastBuildDate>{{ "now" | date: "iso" }}</lastBuildDate>
+    {% for post in collections.posts limit:1000 %}
+      <item>
+        {% case post.data.type %}
+            {% when "article" %}
+            {% if post.data.title %}<title>{{ post.data.title | escape }}</title>{% endif %}
+        {% endcase %}
+        <description>
+        {% case post.data.type %}
+            {% when "reply" %}
+                    &lt;em&gt;Replied to &lt;a class=&quot;u-in-reply-to&quot; href=&quot;{{ post.data.in-reply-to }}&quot;&gt;{{ post.data.title }}&lt;/a&gt;&lt;/em&gt;
+            {% when "repost" %}
+                    &lt;em&gt;Shared &lt;a class=&quot;u-repost-of&quot; href=&quot;{{ post.data.repost-of }}&quot;&gt;{{ post.data.title }}&lt;/a&gt;&lt;/em&gt;
+            {% when "bookmark" %}
+                    &lt;em&gt;🔖 &lt;a class=&quot;u-bookmark-of&quot; href=&quot;{{ post.data.bookmark-of }}&quot;&gt;{{ post.data.title }}&lt;/a&gt;&lt;/em&gt;
+            {% when "favorite" %}
+                    &lt;em&gt;⭐️ &lt;a class=&quot;u-like-of&quot; href=&quot;{{ post.data.like-of }}&quot;&gt;{{ post.data.title }}&lt;/a&gt;&lt;/em&gt;
+        {% endcase %}
+        {{ post.templateContent | escape }}</description>
+        <pubDate>{{ post.date | date: "iso"}}</pubDate>
+        <link>{{ post.url | prepend: site.url }}</link>
+        <guid isPermaLink="true">{{ post.url | prepend: site.url }}</guid>
+        {% for tag in post.data.tags %}
+        <category>{{ tag | escape }}</category>
+        {% endfor %}
+        {% for cat in post.data.type %}
+        <category>{{ cat | escape }}</category>
+        {% endfor %}
+      </item>
+    {% endfor %}
+  </channel>
+</rss>

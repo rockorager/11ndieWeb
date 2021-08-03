@@ -25,34 +25,48 @@ module.exports = function (eleventyConfig) {
         return value + "s";
     }
   });
+  eleventyConfig.addFilter("date", function (date, format) {
+    if (date === "now") {
+      date = new Date();
+    }
+    if (format === "iso") {
+      return new Date(date).toISOString();
+    } else {
+      return new Date(date).toDateString();
+    }
+  });
 
   // Collections
   eleventyConfig.addCollection("posts", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/*").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/**").reverse();
   });
   eleventyConfig.addCollection("articles", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/articles").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/articles/**").reverse();
   });
   eleventyConfig.addCollection("bookmarks", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/bookmarks").reverse();
+    return collectionApi
+      .getFilteredByGlob("./www/posts/bookmarks/**")
+      .reverse();
   });
   eleventyConfig.addCollection("notes", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/notes").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/notes/**").reverse();
   });
   eleventyConfig.addCollection("replies", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/replies").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/replies/**").reverse();
   });
   eleventyConfig.addCollection("reposts", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/reposts").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/reposts/**").reverse();
   });
   eleventyConfig.addCollection("reading", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/reading").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/reading/**").reverse();
   });
   eleventyConfig.addCollection("favorites", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/favorites").reverse();
+    return collectionApi
+      .getFilteredByGlob("./www/posts/favorites/**")
+      .reverse();
   });
   eleventyConfig.addCollection("rsvps", function (collectionApi) {
-    return collectionApi.getFilteredByGlob("www/posts/rsvps").reverse();
+    return collectionApi.getFilteredByGlob("./www/posts/rsvps/**").reverse();
   });
 
   // Quiet mode
@@ -62,7 +76,7 @@ module.exports = function (eleventyConfig) {
   return {
     dir: {
       input: "www",
-      includes: "../themes/" + site.theme,
+      includes: "../_themes/" + site.theme,
     },
   };
 };

@@ -1,0 +1,98 @@
+---
+permalink: 'admin/config.yml'
+---
+backend:
+  name: github
+  branch: main
+  repo: {{site.GITHUB_USER}}/{{site.GITHUB_REPO}}
+
+media_folder: "www/images"
+public_folder: "/images"
+
+site_url: {{site.url}}
+
+collections:
+  - name: "articles"
+    label: "Article"
+    folder: "www/posts/articles/"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}  
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "bookmarks"
+    label: "Bookmark"
+    folder: "www/posts/bookmarks/"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    fields:
+      - {label: "Link", name: "bookmark-of", widget: "string"}
+      - {label: "Title", name: "title", widget: "string"} 
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "favorites"
+    label: "Favorites"
+    folder: "www/posts/favorites/"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    fields:
+      - {label: "Link", name: "like-of", widget: "string"}
+      - {label: "Title", name: "title", widget: "string"} 
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "notes"
+    label: "Note"
+    folder: "www/posts/notes/"
+    create: true
+    identifier_field: "body"
+    slug: "{{year}}-{{month}}-{{day}}-{{body}}"
+    fields:
+      - {label: "Date", name: "date", widget: "datetime"} 
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "replies"
+    label: "Reply"
+    folder: "www/posts/replies/"
+    create: true
+    identifier_field: "body"
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    fields:
+      - {label: "Reply to URL", name: "in-reply-to", widget: "string"}
+      - {label: "Title", name: "Title", widget: "string"}    
+      - {label: "Date", name: "date", widget: "hidden"}
+      - {label: "Body", name: "body", widget: "markdown"}  
+  - name: "pages"
+    label: "Page"
+    folder: "www/pages/"
+    create: true
+    filter: {field: "layout", value: "layouts/page"}
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/page"}
+      - {label: "Date", name: "date", widget: "datetime"} 
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "reposts"
+    label: "Repost"
+    folder: "www/posts/reposts/"
+    create: true
+    filter: {field: "type", value: "repost"}
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    fields:
+      - {label: "Link", name: "repost-of", widget: "string"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+  - name: "rsvps"
+    label: "RSVP"
+    folder: "www/posts/rsvps/"
+    create: true
+    identifier_field: "body"
+    slug: "{{year}}-{{month}}-{{day}}-{{title}}"
+    fields:
+      - {label: "Event URL", name: "in-reply-to", widget: "string"}
+      - {label: "RSVP", name: "rsvp", widget: "select", options: ['yes','no','interested']}
+      - {label: "Title", name: "Title", widget: "string"}    
+      - {label: "Date", name: "date", widget: "hidden"}
+      - {label: "Body", name: "body", widget: "markdown"}  
+  

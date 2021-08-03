@@ -1,9 +1,15 @@
+{%- for post in collections.posts -%}
+  {%- if page.url == post.url -%}
+    {%- assign fallbackTitle = post.templateContent -%}
+  {%- endif -%}
+{%- endfor -%}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if title %}{{ title }}{% else %}{{site.title}}{% endif %}</title>
+    <title>{% if title %}{{ title }}{% else %}{{fallbackTitle | strip_html }}{% endif %}</title>
     <meta name="description" content="{{ site.description }}">
     <link rel="icon" href="/favicon.svg">
     
@@ -13,12 +19,12 @@
     <link rel="webmention" href="/11ndieweb/webmention">
     <link rel="micropub" href="/11ndieweb/micropub">
     <!--Style-->
-    {% include styles/style.html %}
+    {% include partials/style.html %}
   </head>
 
   <body>
     {% include partials/header.html %}
-        {{ content }}
-    {% include partials/footer.html %}
-    </body>
+        {{ content | safe }}
+    {% include partials/footer %}
+  </body>
 </html>

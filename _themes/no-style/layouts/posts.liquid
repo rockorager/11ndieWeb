@@ -1,0 +1,52 @@
+---
+layout: base
+eleventyExcludeFromCollections: true
+---
+<main class="h-feed">
+
+{% for post in posts %}
+    {% assign full_url = {{ site.url }} | append: post.url %}
+    {% assign reactions = webmentions.children | where: "wm-target", full_url %}
+    <article class="h-entry">
+        <time class="dt-published" datetime="{{post.date | date: "iso" }}">
+            <a href="{{ post.url }}" class="u-url">{{ post.date | date: "%a %b %d, %Y" }}</a>
+        </time>
+        {% include partials/h-card.html %}
+        {% case post.data.type %}
+            {% when "article" %}
+                <h2 class="p-name">{{post.data.title}}</h2>
+                <section class="e-content">{{post.templateContent }}
+                </section>
+            {% when "reply" %}
+                <section class="link-context">
+                    {% include icons/reply.svg %}<em> Replied to <a class="u-in-reply-to" href="{{ post.data.in-reply-to }}">{{ post.data.title }}</a></em>
+                </section>
+                <section class="p-name e-content">{{ post.templateContent}}</section>
+            {% when "repost" %}
+                <section class="link-context">
+                    {% include icons/share.svg %}<em> Shared <a class="u-repost-of" href="{{ post.data.repost-of }}">{{ post.data.title }}</a></em>
+                </section>
+                <section class="p-name e-content">{{ post.templateContent}}</section>
+            {% when "bookmark" %}
+                <section class="link-context">
+                    {% include icons/bookmark.svg %}<em> Bookmarked <a class="u-bookmark-of" href="{{ post.data.bookmark-of }}">{{ post.data.title }}</a></em>
+                </section>
+                <section class="p-name e-content">{{ post.templateContent}}</section>
+            {% when "note" %}
+            <section class="p-name e-content">{{ post.templateContent}}</section>
+            {% when "favorite" %}
+                <section class="link-context">
+                    {% include icons/favorite.svg %} <em><a class="u-like-of" href="{{ post.data.like-of }}">{% if post.data.title %}{{ post.data.title }}{% else %}{{ post.data.like-of }}{% endif %}</a></em>
+                </section>
+                <section class="p-name e-content">{{ post.templateContent}}</section>
+        {% endcase %}
+        
+        {% if reactions.size == 1 %}
+            <p class="reactions"><a href="{{ post.url }}#comments">{{ reactions.size }} Webmention</a></p>
+        {% elsif reactions.size >1 %}
+            <p class="reactions"><a href="{{ post.url }}#comments">{{ reactions.size }} Webmentions</a></p>
+        {% endif %}
+    </article>
+{% endfor %}
+
+</main>

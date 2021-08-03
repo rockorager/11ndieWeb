@@ -1,0 +1,12 @@
+---
+layout: base
+---
+<main>
+<h1>Books</h1>
+{% for post in posts %}
+    <p> 
+        <a href="{{ post.url }}" class="u-url p-name"><b>{{post.data.title}}</b></a> by {{ post.data.author }} - 
+        <span class="book-status {{post.data.status}}">{{post.data.status}}</span>
+    </p>
+{% endfor %}
+</main>

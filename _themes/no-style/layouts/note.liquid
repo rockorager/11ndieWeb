@@ -1,0 +1,19 @@
+---
+layout: base
+---
+<main>
+    <article class="h-entry">
+    {% include partials/h-card.html %}
+    {% include partials/time %}
+        <div class="p-name e-content">
+            {{ content | safe }}
+
+            {% for url in photo %}
+                <img src="{{ url }}" alt="image">
+            {% endfor %}
+
+        </div>
+    </article>
+    
+{% include partials/webmentions %}
+</main>

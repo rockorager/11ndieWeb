@@ -1,0 +1,5 @@
+{%- if page.updated -%}    
+    <time class="dt-published" datetime='{{updated | date("iso") }}'>Updated <a href="{{ page.url }}" class="u-url">{{ updated | date("") }}</a></time>
+{%- else -%}
+    <time class="dt-published" datetime='{{date| date("iso") }}'><a href="{{ page.url }}" class="u-url">{{ date | date() }}</a></time>
+{%- endif -%}
