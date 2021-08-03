@@ -4,8 +4,7 @@ layout: layouts/index
 date: 2021-05-10T09:58:17-05:00
 ---
 
-An 11ty starter site with IndieWeb turned to 11
-
+An 11ty starter site for the IndieWeb
 
 To begin using, just click the button below
 

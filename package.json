@@ -1,7 +1,7 @@
 {
   "name": "11ndieweb",
   "version": "0.1.0",
-  "description": "11ty+IndieWeb",
+  "description": "An 11ty starter site for the IndieWeb",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
