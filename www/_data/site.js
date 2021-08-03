@@ -1,3 +1,4 @@
+// On first deploy from Netlify button, the REPOSITORY_URL is in the form "git@github.com:user/repo", this function lets the first deploy work
 function getGithubInfo(info) {
   let github;
   let user;
@@ -7,7 +8,6 @@ function getGithubInfo(info) {
     user = github[1];
     repo = github[2];
   } catch(err) {
-    console.log(err);
     github = process.env.REPOSITORY_URL.slice(15).split("/");
     user = github[0];
     repo = github[1];
