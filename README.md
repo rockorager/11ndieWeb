@@ -13,9 +13,9 @@ To begin using, just click the button below
 - 🚀 Webmentions
 - 🌎 Micropub
 - ✍️ Notes, articles, bookmarks, replies, RSVPs, favorites, likes, reposts
-- 🎨 Themes
+- 🎨 Themeable
+- 🗂 [Netlify CMS](/admin)
 
 ## Todo
 - 📚 "Reading" posts
-- 🗂 Netlify CMS
 - 📡 Microsub
