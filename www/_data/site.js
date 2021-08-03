@@ -1,3 +1,25 @@
+function getGithubInfo(info) {
+  let github;
+  let user;
+  let repo;
+  try {
+    github = new URL(process.env.REPOSITORY_URL).pathname.split("/");
+    user = github[1];
+    repo = github[2];
+  } catch(err) {
+    console.log(err);
+    github = process.env.REPOSITORY_URL.slice(15).split("/");
+    user = github[0];
+    repo = github[1];
+  }
+  
+  if (info === "user"){
+    return user;
+  } else {
+    return repo;
+  }
+}
+
 module.exports = {
   title: process.env.SITE_NAME,
   description: process.env.SITE_DESCRIPTION,
@@ -11,6 +33,6 @@ module.exports = {
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   GITHUB_URL: process.env.REPOSITORY_URL,
   CONTEXT: process.env.CONTEXT,
-  GITHUB_USER: new URL(process.env.REPOSITORY_URL).pathname.split("/")[1],
-  GITHUB_REPO: new URL(process.env.REPOSITORY_URL).pathname.split("/")[2],
+  GITHUB_USER: getGithubInfo("user"),
+  GITHUB_REPO: getGithubInfo("repo")
 };

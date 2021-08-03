@@ -9,7 +9,7 @@ An 11ty starter site with IndieWeb turned to 11
 
 To begin using, just click the button below
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rockorager/11ndieweb)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rockorager/11ndieWeb)
 
 ## Out of the box
 

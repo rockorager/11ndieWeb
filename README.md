@@ -6,7 +6,7 @@ This starter kit uses the eleventy-plugin-11ndieweb package to provide IndieWeb 
 
 To begin using, just click the button below
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rockorager/11ndieweb)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/rockorager/11ndieWeb)
 
 ## Out of the box
 
