@@ -3,10 +3,8 @@ layout: base
 eleventyExcludeFromCollections: true
 ---
 <main class="h-feed">
-
 {% for post in posts %}
-    {% assign full_url = {{ site.url }} | append: post.url %}
-    {% assign reactions = webmentions.children | where: "wm-target", full_url %}
+    {% assign reactions = webmentions.children | where: "wm-target", post.url %}
     <article class="h-entry">
         <time class="dt-published" datetime="{{post.date | date: "iso" }}">
             <a href="{{ post.url }}" class="u-url">{{ post.date | date: "%a %b %d, %Y" }}</a>

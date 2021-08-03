@@ -1,8 +1,8 @@
 {% assign reply_counter = 0 %}
 {% assign reaction_counter = 0 %}
     {% for webmention in webmentions.children %}
-        {% assign target = webmention.wm-target | replace: "https://www.timculverhouse.com","") %}
-
+        {% assign target = webmention.wm-target | relative %}
+        {{ target }}
         {% if target == page.url %}
 <!--List any other reactions-->
             {% if webmention.wm-property != "in-reply-to" %}

@@ -14,8 +14,17 @@ module.exports = function (eleventyConfig) {
   // Filters
   eleventyConfig.addFilter("where", function (arr, key, value) {
     return arr.filter(function (item) {
-      return item[key] === value;
+      try {
+        let path = new URL(item[key]).pathname;
+        return path === value;
+      } catch(err) {
+        return item[key] === value;
+      }
     });
+  });
+  eleventyConfig.addFilter("relative", function (url) {
+    url = new URL(url).pathname;
+    return url;
   });
   eleventyConfig.addFilter("pluralize", function (value) {
     switch (value) {
