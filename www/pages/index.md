@@ -1,7 +1,8 @@
 ---
 title: 11ndieWeb
-layout: layouts/index
+layout: layouts/page
 date: 2021-05-10T09:58:17-05:00
+permalink: /
 ---
 
 An 11ty starter site for the IndieWeb
@@ -13,11 +14,13 @@ To begin using, just click the button below
 ## Out of the box
 
 - 🚀 Webmentions
-- 🌎 Micropub
+- 🌎 Micropub (max 4mb image upload, blame AWS Lambda)
 - ✍️ Notes, articles, bookmarks, replies, RSVPs, favorites, likes, reposts
 - 🎨 Themeable
 - 🗂 [Netlify CMS]({{ site.url}}/admin)
+- 📡 RSS and JSONFeed
 
 ## Todo
 - 📚 "Reading" posts
 - 📡 Microsub
+- Webmention API for parity with webmention.io, allowing 11ndieweb to serve as a single-click webmention receiver

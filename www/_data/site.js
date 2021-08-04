@@ -29,7 +29,7 @@ module.exports = {
     name: process.env.AUTHOR_NAME,
     email: process.env.AUTHOR_EMAIL,
   },
-  theme: "no-style",
+  theme: "basic",
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   GITHUB_URL: process.env.REPOSITORY_URL,
   CONTEXT: process.env.CONTEXT,

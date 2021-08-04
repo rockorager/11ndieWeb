@@ -1,0 +1,257 @@
+<style>
+  /*-------Variables-------*/
+  :root {
+    --text-main: #222;
+    --text-link: #0000c0;
+    --text-light: #666;
+    --text-pre-background: #e8edf2;
+    --background: #fff;
+    --width: 700px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-main: #eee;
+      --text-link: #7474ff;
+      --text-light: #999;
+      --text-pre-background: #333;
+      --background: #000;
+      background: var(--background);
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica, "Segoe UI",
+      Roboto, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    line-height: 1.5;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    padding: 0 1em;
+    max-width: var(--width);
+    font-size: 1rem;
+    color: var(--text-main);
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 0.5em 0;
+    line-height: 1.2em;
+  }
+
+  a {
+    color: var(--text-link);
+    text-decoration: none;
+  }
+
+  /* Make images easier to work with */
+  img {
+    max-width: 100%;
+    display: block;
+    margin: 0.5em auto;
+    max-height: var(--width);
+  }
+
+  figcaption,
+  img + em {
+    text-align: center;
+  }
+
+  /* Inherit fonts for inputs and buttons */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  /* Left bar on blockquotes */
+  blockquote {
+    margin: 1rem 0;
+    padding: 0 2rem;
+    border-left: 0.2rem solid #777;
+  }
+
+  /* Prevent textarea from overflowing */
+  textarea {
+    width: 100%;
+  }
+
+  /* Styles for inline code or code snippets */
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: "Courier", monospace;
+  }
+  pre {
+    padding: 1rem 1.4rem;
+    max-width: 100%;
+    overflow: auto;
+    border-radius: 4px;
+    background: var(--text-pre-background);
+  }
+  pre code {
+    font-size: 95%;
+    position: relative;
+  }
+  kbd {
+    background: var(--text-pre-background);
+    border: 1px solid hsl(210, 5%, 70%);
+    border-radius: 2px;
+    padding: 2px 4px;
+    font-size: 75%;
+  }
+
+  /* Make table 100% width, add borders between rows */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 0.5rem;
+  }
+  td {
+    border-bottom: 1px solid hsl(0, 0%, 85%);
+  }
+  thead th {
+    border-bottom: 2px solid hsl(0, 0%, 70%);
+  }
+  tfoot th {
+    border-top: 2px solid hsl(0, 0%, 70%);
+  }
+
+  /* h1 size override for consistent size independent of nesting*/
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .task-list-item {
+    list-style-type: none;
+  }
+  article {
+    padding-bottom: 2rem;
+  }
+  article:last-of-type {
+    padding-bottom: 0;
+  }
+
+  p {
+    margin-top: 0;
+  }
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+  nav {
+    display: flex;
+    align-items: flex-end;
+  }
+  #header-title {
+    flex-grow: 1;
+  }
+  #header-title h1 {
+  	text-align: left;
+  	margin-bottom: 0;
+  }
+  nav > a {
+    margin-left: 20px;
+  }
+  header {
+    margin: 1em 0;
+  }
+  header a {
+    color: var(--text-light);
+    text-decoration: none;
+  }
+  header .avatar {
+    vertical-align: bottom;
+    margin-right: 0;
+  }
+  #menu-items a {
+    margin: 0 0.5em;
+  }
+
+  time a {
+    color: var(--text-light);
+    text-decoration: underline;
+  }
+  hr {
+    background: var(--text-main);
+    height: 1px;
+    border: 0;
+  }
+  .avatar {
+    display: inline;
+    max-width: 36px;
+    margin: 0;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+  .commenter {
+    text-decoration: none;
+    color: var(--text-main);
+  }
+  .reactions {
+    text-align: right;
+    color: var(--text-light);
+  }
+  footer,
+  footer a {
+    text-decoration: none;
+    color: var(--text-light);
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+  .link-context {
+    padding-bottom: 1rem;
+  }
+  .contact-icons {
+    display: flex;
+    justify-content: center;
+  }
+  .contact-icons a {
+    margin: 0.5rem;
+  }
+  svg {
+    vertical-align: text-bottom;
+  }
+  main a:hover {
+    text-decoration: underline;
+    color: var(--text-link);
+  }
+  a:hover,
+  time a:hover {
+    color: red;
+  }
+  .webmention-author {
+    display: flex;
+    align-items: baseline;
+  }
+  .webmention-author time {
+    margin-left: 0.5em;
+  }
+  .webmention-author time a {
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 450px) {
+    nav {
+      flex-direction: column;
+      align-items: center;
+    }
+    nav section {
+      margin: 6px;
+    }
+  }
+</style>

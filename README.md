@@ -11,10 +11,11 @@ To begin using, just click the button below
 ## Out of the box
 
 - 🚀 Webmentions
-- 🌎 Micropub
+- 🌎 Micropub (max 4mb image upload, blame AWS Lambda)
 - ✍️ Notes, articles, bookmarks, replies, RSVPs, favorites, likes, reposts
 - 🎨 Themeable
 - 🗂 [Netlify CMS](/admin)
+- 📡 RSS and JSONFeed
 
 ## Todo
 - 📚 "Reading" posts

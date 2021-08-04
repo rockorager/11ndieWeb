@@ -1,0 +1,44 @@
+---
+permalink: 'feed.json'
+---
+{
+    "version": "https://jsonfeed.org/version/1.1",
+    "title": "{{ site.title }}",
+    "home_page_url": "{{ site.url }}",
+    "feed_url": "{{ site.url }}/feed.json",
+    "icon": "{{ site.url }}/images/avatar.jpeg",
+    "items": [
+    {% for post in collections.posts limit:32 %}
+        {
+        "id": "{{ site.url }}{{ post.url }}",
+        "date_published": "{{ post.date | date: 'iso' }}",
+        "url": "{{ site.url }}{{ post.url }}",
+        {% case post.data.type %}
+        {% when 'article' %}
+            "title": "{{post.data.title}}",
+            "content_html": "{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "{{ post.templateContent | strip_newlines | strip_html }}"
+        {% when 'bookmark' %}
+            "content_html": "<em>Bookmarked <a class=\"u-bookmark-of\" href=\"{{ post.data.bookmark-of }}\">{{ post.data.title }}</a></em>{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "Bookmarked {{ post.data.bookmark-of }} {{ post.templateContent | strip_newlines | strip_html }}"
+        {% when 'favorite' %}
+            "content_html": "{% include icons/bookmark.svg %} <em><a class=\"u-like-of\" href=\"{{ post.data.like-of }}\">{{ post.data.title }}</a></em>{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "Favorited {{ post.data.like-of }} {{ post.templateContent | strip_newlines | strip_html }}"
+        {% when 'reply' %}
+            "content_html": "<em>Replied to <a class=\"u-in-reply-to\" href=\"{{ post.data.in-reply-to }}\">{{ post.data.title }}</a></em>{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "Replied to {{ post.data.in-reply-to }} {{ post.templateContent | strip_newlines | strip_html }}"
+        {% when 'repost' %}
+            "content_html": "<em>Shared <a class=\"u-repost-of\" href=\"{{ post.data.repost-of }}\">{{ post.data.title }}</a></em>{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "Shared {{ post.data.repost-of }} {{ post.templateContent | strip_newlines | strip_html }}"
+        {% when 'rsvp' %}
+            "content_html": "<em>RSVP'd {{ post.data.rsvp }} to <a class=\"u-in-reply-to\" href=\"{{ post.data.in-reply-to }}\">{{ post.data.title }}</a></em>{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "RSVP'd {{ post.data.rsvp }} to {{ post.data.in-reply-to }} {{ post.templateContent | strip_newlines | strip_html }}"
+        {% else %}
+            "content_html": "{{ post.templateContent | replace: '"', '\"' | strip_newlines }}",
+            "content_text": "{{ post.templateContent | strip_newlines | strip_html }}"
+        {% endcase -%}
+            
+        }{% if forloop.last == false %},{% else %}{% endif %}
+    {%- endfor -%}
+    ]
+}
