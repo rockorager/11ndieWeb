@@ -24,3 +24,5 @@ To begin using, just click the button below
 - 📚 "Reading" posts
 - 📡 Microsub
 - Webmention API for parity with webmention.io, allowing 11ndieweb to serve as a single-click webmention receiver
+- Automatic sending of webmentions
+- Tag display
